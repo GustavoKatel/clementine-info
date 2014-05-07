@@ -4,7 +4,7 @@ Python script to extract current track information from Clementine Music Player 
 
 ## Features and requirements:
 
-* Using DBUS to query clementine metadata
+* Using DBUS to query clementine metadata (package `python-dbus` is required)
 * User can define a custom pattern with tags (see Tags)
 * Unicode support
 

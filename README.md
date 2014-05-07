@@ -29,3 +29,11 @@ Python script to extract current track information from Clementine Music Player 
 ## License
 
 GPL v2
+
+## About me
+
+Author: GustavoKatel
+
+* GitHub: [GustavoKatel](http://github.com/GustavoKatel "Github")
+* Twitter: [GustavoKatel](http://twitter.com/GustavoKatel "Twitter")
+* Email: [gbritosampaio [at] gmail.com](mailto:gbritosampaio@gmail.com "Email")

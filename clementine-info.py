@@ -28,29 +28,42 @@ class ClementineInfo():
         res = self.pattern
 
         for k in self.pattern2tag:
-            res = res.replace(k, unicode(self.metadata[self.pattern2tag[k]]))
+            # check tag existence
+            tag = self.pattern2tag[k]
+            if tag in self.metadata:
+                res = res.replace(k, unicode(self.metadata[tag]))
 
         return res
 
     def _getMetadata(self):
-        # Clementine lives on the Session bus
-        session_bus = dbus.SessionBus()
+        try:
+            # Clementine lives on the Session bus
+            session_bus = dbus.SessionBus()
 
-        # Get Clementine's player object, and then get an interface from that object,
-        # otherwise we'd have to type out the full interface name on every method call.
-        player = session_bus.get_object('org.mpris.clementine', '/Player')
-        iface = dbus.Interface(player, dbus_interface='org.freedesktop.MediaPlayer')
+            # Get Clementine's player object, and then get an interface from that object,
+            # otherwise we'd have to type out the full interface name on every method call.
+            player = session_bus.get_object('org.mpris.clementine', '/Player')
+            iface = dbus.Interface(player, dbus_interface='org.freedesktop.MediaPlayer')
 
-        # Call a method on the interface
-        self.metadata = iface.GetMetadata()
+            # Call a method on the interface
+            self.metadata = iface.GetMetadata()
+        except Exception as e:
+            print "clementine-info error: %s" % e
+            return
 
         # Get the position
-        self.metadata["position"] = iface.PositionGet() / 1000
+        try:
+            self.metadata["position"] = iface.PositionGet() / 1000
+        except:
+            self.metadata["position"] = 0
 
         # Get the percent
-        div = float(self.metadata["position"]) / float(self.metadata["time"])
-        div = div * 100
-        self.metadata["percent"] = "{0:.2f}".format(div)
+        try:
+            div = float(self.metadata["position"]) / float(self.metadata["time"])
+            div = div * 100
+            self.metadata["percent"] = "{0:.2f}".format(div)
+        except:
+            self.metadata["percent"] = 0
 
 if __name__=="__main__":
     args = sys.argv
@@ -62,6 +75,10 @@ if __name__=="__main__":
         argsu.append(arg.decode("utf-8"))
 
     pattern = u" ".join(argsu)
+
+    # default pattern
+    if len(pattern)==0:
+        pattern = "%t - %a"
 
     app = ClementineInfo(pattern)
     print app.process()

@@ -48,7 +48,8 @@ class ClementineInfo():
             # Call a method on the interface
             self.metadata = iface.GetMetadata()
         except Exception as e:
-            print "clementine-info error: %s" % e
+            self.metadata = []
+            # print "clementine-info error: %s" % e
             return
 
         # Get the position

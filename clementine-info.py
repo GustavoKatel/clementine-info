@@ -66,8 +66,8 @@ class ClementineInfo():
 
         # Get the percent
         try:
-            div = float(self.metadata["position"]) /
-            float(self.metadata["time"])
+            div = float(self.metadata["position"]) /\
+                float(self.metadata["time"])
 
             div = div * 100
             self.metadata["percent"] = "{0:.2f}".format(div)

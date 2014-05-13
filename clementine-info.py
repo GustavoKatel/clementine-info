@@ -4,18 +4,19 @@ import sys
 import os
 import dbus
 
+
 class ClementineInfo():
 
     pattern2tag = {
-        "%a" : "artist",
-        "%t" : "title",
-        "%b" : "album",
-        "%g" : "genre",
-        "%p" : "position",
-        "%P" : "percent",
-        "%l" : "time",
-        "%i" : "arturl",
-        "%f" : "location",
+        "%a": "artist",
+        "%t": "title",
+        "%b": "album",
+        "%g": "genre",
+        "%p": "position",
+        "%P": "percent",
+        "%l": "time",
+        "%i": "arturl",
+        "%f": "location",
     }
 
     def __init__(self, pattern):
@@ -40,10 +41,15 @@ class ClementineInfo():
             # Clementine lives on the Session bus
             session_bus = dbus.SessionBus()
 
-            # Get Clementine's player object, and then get an interface from that object,
-            # otherwise we'd have to type out the full interface name on every method call.
+            # Get Clementine's player object, and then get an interface
+            # from that object, otherwise we'd have to type out the full
+            # interface name on every method call.
             player = session_bus.get_object('org.mpris.clementine', '/Player')
-            iface = dbus.Interface(player, dbus_interface='org.freedesktop.MediaPlayer')
+
+            iface = dbus.Interface(
+                player,
+                dbus_interface='org.freedesktop.MediaPlayer'
+            )
 
             # Call a method on the interface
             self.metadata = iface.GetMetadata()
@@ -60,15 +66,17 @@ class ClementineInfo():
 
         # Get the percent
         try:
-            div = float(self.metadata["position"]) / float(self.metadata["time"])
+            div = float(self.metadata["position"]) /
+            float(self.metadata["time"])
+
             div = div * 100
             self.metadata["percent"] = "{0:.2f}".format(div)
         except:
             self.metadata["percent"] = 0
 
-if __name__=="__main__":
+if __name__ == "__main__":
     args = sys.argv
-    if len(args)>0:
+    if len(args) > 0:
         args = args[1:]
 
     argsu = []
@@ -78,7 +86,7 @@ if __name__=="__main__":
     pattern = u" ".join(argsu)
 
     # default pattern
-    if len(pattern)==0:
+    if len(pattern) == 0:
         pattern = "%t - %a"
 
     app = ClementineInfo(pattern)

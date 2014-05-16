@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import sys
-import os
 import dbus
 
 
@@ -90,4 +89,4 @@ if __name__ == "__main__":
         pattern = "%t - %a"
 
     app = ClementineInfo(pattern)
-    print app.process()
+    sys.stdout.write(app.process().encode("utf-8"))

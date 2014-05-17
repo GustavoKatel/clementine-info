@@ -18,10 +18,12 @@ class ClementineInfo():
         "%f": "location",
     }
 
-    def __init__(self, pattern):
-        self.pattern = pattern
+    def __init__(self):
+        pass
 
-    def process(self):
+    def process(self, pattern):
+
+        self.pattern = pattern
 
         self._getMetadata()
 
@@ -88,5 +90,5 @@ if __name__ == "__main__":
     if len(pattern) == 0:
         pattern = "%t - %a"
 
-    app = ClementineInfo(pattern)
-    sys.stdout.write(app.process().encode("utf-8"))
+    app = ClementineInfo()
+    sys.stdout.write(app.process(pattern).encode("utf-8"))

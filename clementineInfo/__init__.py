@@ -25,7 +25,7 @@ class ClementineInfo():
 
         self.pattern = pattern
 
-        self._getMetadata()
+        self.getMetadata()
 
         res = self.pattern
 
@@ -37,7 +37,7 @@ class ClementineInfo():
 
         return res
 
-    def _getMetadata(self):
+    def getMetadata(self):
         try:
             # Clementine lives on the Session bus
             session_bus = dbus.SessionBus()
@@ -74,6 +74,8 @@ class ClementineInfo():
             self.metadata["percent"] = "{0:.2f}".format(div)
         except:
             self.metadata["percent"] = 0
+
+        return self.metadata
 
 if __name__ == "__main__":
     args = sys.argv

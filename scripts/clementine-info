@@ -1,0 +1,22 @@
+#!/usr/bin/python
+
+import sys
+from clementineInfo import ClementineInfo as ci
+
+if __name__ == "__main__":
+    args = sys.argv
+    if len(args) > 0:
+        args = args[1:]
+
+    argsu = []
+    for arg in args:
+        argsu.append(arg.decode("utf-8"))
+
+    pattern = u" ".join(argsu)
+
+    # default pattern
+    if len(pattern) == 0:
+        pattern = "%t - %a"
+
+    app = ci()
+    sys.stdout.write(app.process(pattern).encode("utf-8"))

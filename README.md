@@ -22,9 +22,13 @@ Python script to extract current track information from Clementine Music Player 
 * %i : arturl
 * %f : location
 
+### Installation
+
+    # python setup.py install
+
 ### Run:
 
-    ./clementine-info.py "♪ %t - %a"
+    clementine-info.py "♪ %t - %a"
 
 ## License
 

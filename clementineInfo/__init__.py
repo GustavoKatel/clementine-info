@@ -82,6 +82,18 @@ if __name__ == "__main__":
     if len(args) > 0:
         args = args[1:]
 
+    max_length = 0
+    if "--max-length" in args:
+        pos = args.index("--max-length")
+        if pos+1 < len(args):
+            try:
+                max_length = int(args[pos+1])
+            except:
+                max_length = 0
+                sys.stderr.write("Invalid value for max-length")
+        args.pop(pos)
+        args.pop(pos)
+
     argsu = []
     for arg in args:
         argsu.append(arg.decode("utf-8"))
@@ -93,4 +105,9 @@ if __name__ == "__main__":
         pattern = "%t - %a"
 
     app = ClementineInfo()
-    sys.stdout.write(app.process(pattern).encode("utf-8"))
+    res = app.process(pattern).encode("utf-8")
+
+    if max_length > 0:
+        res = res[:max_length]
+
+    sys.stdout.write(res)
